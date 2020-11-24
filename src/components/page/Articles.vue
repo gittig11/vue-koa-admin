@@ -43,6 +43,8 @@ export default {
 <style lang="css" scoped>
   .article-body{
     margin-left: 20px;
+    max-width: 752px;
+    margin: 32px auto 0;
   }
   .time{
     margin: 20px 0;
