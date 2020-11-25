@@ -79,8 +79,12 @@ export default {
   delUser(data) {
     return instance.post('/users/delUser', data);
   },
-  // 获取流量
-   getFlow(data){
-    return instance.get('http://localhost:5000/flow/findFlow');
-   }
+  // 获取UV和PV数据
+  findFlow() {
+    return instance.get('/flow/findFlow');
+  },
+  // 增加一次UV和PV
+  getFlow() {
+    return instance.get('/flow/getFlow');
+  },
 }

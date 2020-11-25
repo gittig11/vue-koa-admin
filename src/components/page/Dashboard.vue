@@ -287,9 +287,12 @@
         this.isIndeterminate = checkedCount > 0 && checkedCount < this.labels.length;
       },
     },
+    // created(){
+    //   axios.getFlow(); // 用户访问时增加访问量
+    // },
     mounted(){
       // 获取浏览量
-      axios.getFlow().then(res => {
+      axios.findFlow().then(res => {
         console.log(res.data.data[0])
         this.flow = res.data.data[0]
       })
