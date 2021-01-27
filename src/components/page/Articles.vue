@@ -1,13 +1,14 @@
 <template>
   <div class="article-body">
     <h1 class="title"> {{title}} </h1>
-    <h4 class="time">更新时间：{{updated_at}}</h4>
-    <div v-html="body_html"></div>
+    <h4 class="time" v-if="updated_at">更新时间：{{updated_at}}</h4>
+    <div v-html="body_html" class="body_html"></div>
   </div>
 </template>
 
 <script>
 import configObj from '@/config.js'
+import dayjs from 'dayjs'
 
 export default {
   name: 'Articles',
@@ -30,7 +31,7 @@ export default {
     }).then((response)=>{
       let {title, updated_at, body_html} = response.data.data
       this.title = title
-      this.updated_at = updated_at.slice(0, 10)
+      this.updated_at = dayjs(updated_at).format('YYYY-MM-DD HH:MM:ss')
       this.body_html = body_html
       // console.log(body_html);
     }).catch((response)=>{
@@ -50,5 +51,12 @@ export default {
     margin: 20px 0;
     color: rgb(38, 38, 38);
     font-weight: 400;
+  }
+  ::v-deep img{
+    border:0;
+    vertical-align: middle;
+    width: 100%;
+    max-width: 100%;
+    height: auto;
   }
 </style>
