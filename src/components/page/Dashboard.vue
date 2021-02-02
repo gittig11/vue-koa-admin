@@ -36,7 +36,7 @@
               <div class="grid-content grid-con-1">
                 <i class="el-icon-lx-people grid-con-icon"></i>
                 <div class="grid-cont-right">
-                  <div class="grid-num">{{flow.UV}}</div>
+                  <div class="grid-num" v-if="flow">{{flow.UV}}</div>
                   <div>用户访问量(UV)</div>
                 </div>
               </div>
@@ -47,7 +47,7 @@
               <div class="grid-content grid-con-2">
                 <i class="el-icon-lx-notice grid-con-icon"></i>
                 <div class="grid-cont-right">
-                  <div class="grid-num">{{flow.PV}}</div>
+                  <div class="grid-num" v-if="flow">{{flow.PV}}</div>
                   <div>网站浏览量(PV)</div>
                 </div>
               </div>
