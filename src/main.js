@@ -10,9 +10,9 @@ import './assets/css/icon.css';
 import './components/common/directives';
 import 'babel-polyfill';
 
-import axios from 'axios'
-import VueAxios from 'vue-axios'
-Vue.use(VueAxios, axios);
+// import axios from 'axios'
+// import VueAxios from 'vue-axios'
+// Vue.use(VueAxios, axios);
 
 Vue.use(VueI18n);
 Vue.use(ElementUI, {
