@@ -241,8 +241,6 @@
     }
   }
 
-  .el-checkbox__label {
-  }
   .el-checkbox {
     margin: 10px 0;
     .el-checkbox__label{

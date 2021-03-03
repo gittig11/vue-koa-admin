@@ -165,24 +165,23 @@
           type: 'success',
           duration: 1000
         })
-        let urlArr = configObj.authorsAndBooks.map((item) => `api/v2/repos/${item.author}/${item.book}/docs`);
-        let reqList = [];
-        console.log(urlArr);
-        for (let i=0; i<urlArr.length; i++){
-          let req = this.axios.get(urlArr[i], {
-            headers: {
-              'X-Auth-Token': configObj.yuqueToken
-            }
-          })
-          reqList.push(req);
+        for(let i=0; i<configObj.authorsAndBooks.length; i++){
+          let item = configObj.authorsAndBooks[i];
+          axios.getDocs(item.author, item.book)
+            .then(({data}) => {
+              // console.log(data);
+              // if(!data.success) return;
+              if(data.success) {
+                this.list.push(...data.data.list); // 所有的文章
+                // console.log(this.list)
+                this.displayList = this.list.slice((this.currentPage-1)*10, this.currentPage*10)
+                this.labels = this.list.map((item) => item.id)
+              }
+              else{
+                console.log(data);
+              }
+            });
         }
-        this.axios.all(reqList).then(this.axios.spread((...resList) => {
-          this.list = resList.map((item) => item.data.data).flat(); // 所有的文章
-          // console.log(resList) // 拿到所有posts数据
-          console.log(this.list)
-          this.displayList = this.list.slice((this.currentPage-1)*10, this.currentPage*10)
-          this.labels = this.list.map((item) => item.id)
-        }))
       },
       doNotPersistence(){
         if (this.checkedLabels.length === 0){
@@ -235,18 +234,11 @@
           console.log(this.checkedLabels);
           for (let i=0; i<this.checkedLabels.length; i++){
             let person = configObj.authorsAndBooks.filter(obj => obj.user_id === this.checkedLabels[i].user_id).shift();
-            let link = `api/v2/repos/${person.author}/${person.book}/docs/${this.checkedLabels[i].id}?raw=1`
-            console.log(link);
             // 根据文章id请求文章内容
-            this.axios.get(link, {
-              headers: {
-                'X-Auth-Token': configObj.yuqueToken
-              },
-              // params: {
-              //   raw: 1,  // Markdown格式
-              // }
-            })
-            .then(({data})=>{
+            axios.getDocDetail(person.author, person.book, this.checkedLabels[i].id)
+            .then(({data}) => {
+              // console.log(data);
+              if(!data.success) return;
               // 存入数据库
               axios.postAnArticle(data.data)
                 .then(()=>{

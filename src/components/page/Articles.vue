@@ -9,6 +9,7 @@
 <script>
 import configObj from '@/config.js'
 import dayjs from 'dayjs'
+import axios from '@/axios.js'
 
 export default {
   name: 'Articles',
@@ -22,13 +23,9 @@ export default {
   mounted() {
     let userId = parseInt(this.$route.query.userId);
     let person = configObj.authorsAndBooks.filter(obj => obj.user_id === userId).shift();
-    let link = `api/v2/repos/${person.author}/${person.book}/docs/${this.$route.params.id}?raw=1`
-    console.log(this.$route.params);
-    this.axios.get(link, {
-      headers: {
-        'X-Auth-Token': configObj.yuqueToken
-      },
-    }).then((response)=>{
+    // console.log(this.$route.params);
+    axios.getDocDetail(person.author, person.book, this.$route.params.id)
+    .then((response)=>{
       let {title, updated_at, body_html} = response.data.data
       this.title = title
       this.updated_at = dayjs(updated_at).format('YYYY-MM-DD HH:MM:ss')

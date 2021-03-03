@@ -19,6 +19,10 @@ instance.interceptors.request.use(
     if (token) {
       config.headers.Authorization = "Bearer " + token;
     }
+    // 只对语雀api("/docs")添加'X-Auth-Token'请求头
+    if(/\/docs/.test(config.url)) {
+      config.headers['X-Auth-Token'] = configObj.yuqueToken;
+    }
     // if (store.state.token) {
     //   config.headers.Authorization = `token ${store.state.token}`;
     // }
@@ -54,6 +58,17 @@ instance.interceptors.response.use(
 );
 
 export default {
+  getDocs(author, book) {
+    return instance.get(`/docs?author=${author}&book=${book}`);
+    // return instance.get(`/docs?author=${author}&book=${book}`, {
+    //   headers: {
+    //     'X-Auth-Token': configObj.yuqueToken
+    //   }
+    // });
+  },
+  getDocDetail(author, book, docId) {
+    return instance.get(`/docs/doc?author=${author}&book=${book}&docId=${docId}`);
+  },
   getArticles(){
     return instance.get('/articles'); 
   },
